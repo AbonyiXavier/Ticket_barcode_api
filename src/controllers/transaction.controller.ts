@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import shortid from 'shortid';
 
-import { statusError, statusSuccess } from "../common/constant";
+import { STATUS_ERROR, STATUS_SUCCESS } from "../common/constant";
 import { initializePayment, verifyPayment } from "../paystack/paystack.provider";
 import { createTransaction } from "../services/transaction/transaction.service";
 import { createTransactionConfig } from "../services/transaction/types";
@@ -32,14 +32,14 @@ export const initializeTransactionHandler = async (req: Request, res: Response) 
 
       if (response) {
           return res.status(StatusCodes.CREATED).send({
-            status: statusSuccess,
+            status: STATUS_SUCCESS,
             message: response?.message,
             data: response?.data,
           });
       }
     } catch (error: unknown) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
-            status: statusError,
+            status: STATUS_ERROR,
             message: "Error initializing payment",
             data: null,
         });
@@ -93,7 +93,7 @@ export const VerifyTransactionHandler = async (req: Request, res: Response) => {
           console.log("barcodeImage...",  barcodeImage);
           // update barcode_image to barcode db
           return res.status(StatusCodes.CREATED).send({
-              status: statusSuccess,
+              status: STATUS_SUCCESS,
               message: 'Payment was made successfully',
               data: { 
                 // payload,
@@ -113,7 +113,7 @@ export const VerifyTransactionHandler = async (req: Request, res: Response) => {
     } catch (error: unknown) {  
       logger.error("Error verifying payment", error)    
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
-            status: statusError,
+            status: STATUS_ERROR,
             message: "Error verifying payment",
             data: null,
         });

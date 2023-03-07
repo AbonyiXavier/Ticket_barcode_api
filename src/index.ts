@@ -4,7 +4,7 @@ import cors from "cors";
 import morgan from "morgan";
 import { StatusCodes } from "http-status-codes";
 
-import { statusError, statusSuccess } from "./common/constant";
+import { STATUS_ERROR, STATUS_SUCCESS } from "./common/constant";
 
 import router from "./routes/index";
 
@@ -24,14 +24,14 @@ app.use("/api", router);
 
 app.get("/", (req: Request, res: Response) => {
   res.status(StatusCodes.OK).json({
-    status: statusSuccess,
+    status: STATUS_SUCCESS,
     message: "Welcome to ticket service 👈👈",
   });
 });
 
 app.all("*", (req: Request, res: Response) => {
   res.status(StatusCodes.NOT_FOUND).json({
-    status: statusError,
+    status: STATUS_ERROR,
     message: "resource not found",
   });
 });

@@ -1,7 +1,6 @@
 import logger from "../../config/logger";
 import ticketModel from "../../models/ticket.model";
 import { createTicketConfig } from "./types";
-import { addMinutes, addDays, addHours } from 'date-fns'
 
 const ticketDescription = (ticket_time: Date, duration: string) => {
   return `This app ticket is valid for travel for ${ticket_time} ${duration} after activation.`
@@ -16,25 +15,6 @@ export const createTicket = async (prop: createTicketConfig) => {
      ticket_amount,
      category   
     });
-
-    // switch (ticket_name) {
-    //   case ticketList.single_ticket:
-    //     ticket.ticket_time = addMinutes(ticket.ticket_time, TICKET_VALID_TIME.SINGLE_TICKET);
-    //     // ticket_description = ticketDescription(ticket.ticket_time, "minutes");
-    //     break;
-
-    //   case ticketList.twenty_four_hours_ticket:
-    //     ticket.ticket_time = addHours(ticket.ticket_time, TICKET_VALID_TIME.TWENTY_FOUR_HOURS_TICKET);
-    //     break;
-
-    //   case ticketList.seven_days_ticket:
-    //     ticket.ticket_time = addDays(ticket.ticket_time, TICKET_VALID_TIME.SEVEN_DAYS_TICKET);
-    //     break;
-    
-    //   default:
-    //     logger.error("Invalid ticket name....")
-    //     break;
-    // }
 
     const result = await ticket.save();
     

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { statusError, statusSuccess } from "../common/constant";
+import { STATUS_ERROR, STATUS_SUCCESS } from "../common/constant";
 import { ticketResponse } from "../common/interface";
 import { createCategory } from "../services/category/category.service";
 
@@ -13,7 +13,7 @@ export const createCategoryHandler = async (req: Request, res: Response) => {
     const category = await createCategory(name);
 
     return res.status(StatusCodes.CREATED).send({
-      status: statusSuccess,
+      status: STATUS_SUCCESS,
       message: "Ticket category created successfully",
       data: category,
     });
@@ -24,14 +24,14 @@ export const createCategoryHandler = async (req: Request, res: Response) => {
       error.code === 11000
     ) {
       return res.status(StatusCodes.CONFLICT).send({
-        status: statusError,
+        status: STATUS_ERROR,
         message: "Category name already exist",
         data: null,
       });
     }
 
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
-      status: statusError,
+      status: STATUS_ERROR,
       message: "Error creating category",
       data: null,
     });

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
-import { statusError, statusSuccess } from "../common/constant";
+import { STATUS_ERROR, STATUS_SUCCESS } from "../common/constant";
 import { createTicket, getTicket } from "../services/ticket/ticket.service";
 import { createTicketConfig } from "../services/ticket/types";
 
@@ -16,7 +16,7 @@ export const createTicketHandler = async (req: Request, res: Response) => {
     const ticket = await createTicket(payload);
 
     return res.status(StatusCodes.CREATED).send({
-      status: statusSuccess,
+      status: STATUS_SUCCESS,
       message: "Ticket created successfully",
       data: ticket,
     });
@@ -27,14 +27,14 @@ export const createTicketHandler = async (req: Request, res: Response) => {
       error.code === 11000
     ) {
       return res.status(StatusCodes.CONFLICT).send({
-        status: statusError,
+        status: STATUS_ERROR,
         message: "Ticket name already exist",
         data: null,
       });
     }
 
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
-      status: statusError,
+      status: STATUS_ERROR,
       message: "Error creating user",
       data: null,
     });
@@ -48,20 +48,20 @@ export const fetchTicketHandler = async (req: Request, res: Response) => {
   
       if (!user) {
         return res.status(StatusCodes.NOT_FOUND).send({
-          status: statusError,
+          status: STATUS_ERROR,
           message: "No ticket found",
           data: null,
         });
       }
   
       return res.status(StatusCodes.OK).send({
-        status: statusSuccess,
+        status: STATUS_SUCCESS,
         message: "Ticket fetched successfully",
         data: user,
       });
     } catch (error: any) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
-        status: statusError,
+        status: STATUS_ERROR,
         message: "Error fetching ticket",
         data: null,
       });

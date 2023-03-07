@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import Jimp from "jimp";
 import fs from 'fs';
 
-import { statusError, statusSuccess } from "../common/constant";
+import { STATUS_ERROR, STATUS_SUCCESS } from "../common/constant";
 import logger from "../config/logger";
 import barcodeModel from "../models/barcode.model";
 import path from "path";
@@ -25,20 +25,20 @@ const QrCode = require('qrcode-reader');
      
    if (item?.is_activated === true) {
     return res.status(StatusCodes.UNAUTHORIZED).send({
-      status: statusError,
+      status: STATUS_ERROR,
       message: "Expired QR code",
       data: null,
     })
    } 
     if (item) {
       return res.status(StatusCodes.CREATED).send({
-        status: statusSuccess,
+        status: STATUS_SUCCESS,
         message: "QR code is valid",
         data: item,
       });
     } else {
       return res.status(StatusCodes.UNAUTHORIZED).send({
-        status: statusError,
+        status: STATUS_ERROR,
         message: "Invalid QR code",
         data: null,
       })
@@ -47,7 +47,7 @@ const QrCode = require('qrcode-reader');
        logger.error("readQRHandler failed ", error);
        
        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
-         status: statusError,
+         status: STATUS_ERROR,
          message: "Error fetching ticket",
          data: null,
        });
@@ -60,7 +60,7 @@ const QrCode = require('qrcode-reader');
     const result = await activateQRCode(unique_qr_code);
     
     return res.status(StatusCodes.CREATED).send({
-      status: statusSuccess,
+      status: STATUS_SUCCESS,
       message: "Ticket activated",
       data: result,
     });
@@ -95,7 +95,7 @@ export const readQRHandler = async (req: Request, res: Response) => {
         qr.callback = async (error: unknown, value: Record<string, any>) => {
           if (error) {
               return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
-              status: statusError,
+              status: STATUS_ERROR,
               message: "Error scanning QR code",
               data: null,
             })
@@ -105,13 +105,13 @@ export const readQRHandler = async (req: Request, res: Response) => {
             
             if (item) {
               return res.status(StatusCodes.CREATED).send({
-                status: statusSuccess,
+                status: STATUS_SUCCESS,
                 message: "QR code is valid",
                 data: item,
               });
             } else {
               return res.status(StatusCodes.UNAUTHORIZED).send({
-                status: statusError,
+                status: STATUS_ERROR,
                 message: "Invalid QR code",
                 data: null,
               })
@@ -126,7 +126,7 @@ export const readQRHandler = async (req: Request, res: Response) => {
         logger.error("readQRHandler failed ", error);
         
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
-          status: statusError,
+          status: STATUS_ERROR,
           message: "Error fetching ticket",
           data: null,
         });
