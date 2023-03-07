@@ -1,0 +1,21 @@
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #reader {
+    width: 500px;
+  }
+
+  #result {
+    text-align: center;
+    font-size: 1.5rem
+  }
+
+  #container {
+    border: 5px solid #171b13;
+    padding: 20px; 
+    width: 200px;
+    height: 150px;  
+  }
